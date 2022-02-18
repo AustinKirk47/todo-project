@@ -1,13 +1,13 @@
-import './bootstrap.css';
+import '../bootstrap.css';
 import './ToDoApp.css';
-import ToDoList from './components/ToDoList';
+import ToDoList from './ToDoList';
 import {useEffect} from 'react';
 
 function ToDoApp() {
 
    useEffect(() => {
       document.title = "To-do List"
-   });
+   },[]);
 
    return (
    <div className="ToDoApp">

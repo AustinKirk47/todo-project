@@ -10,12 +10,12 @@ function UpdateToDo() {
    const [oldTodo, setOldTodo] = useState([]);
    const navigate = useNavigate();
    const handleSubmit = (description, targetDate, status) => {
-      const todo = [
+      const todo = {
          id,
          description,
          targetDate,
          status
-      ];
+      };
       ToDoService.updateTodo(id, todo);
       navigate('/todos');
    };
@@ -27,22 +27,32 @@ function UpdateToDo() {
             setOldTodo(response.data)
          }
       )
-   });
+   },[]);
 
-   return (
-      <div className="FormPage">
-         <header className="FormPage-header">
-            <h2 className="FormPage-title">Update a To-do</h2>
-         </header>
-         <ToDoForm
-            update = {true}
-            description = {oldTodo.description}
-            targetDate = {oldTodo.targetDate}
-            status = {oldTodo.status} 
-            handleSubmit={handleSubmit}
-         />
-      </div>
-   );
+   if(oldTodo.description) {
+      return (
+         <div className="FormPage">
+            <header className="FormPage-header">
+               <h2 className="FormPage-title">Update a To-do</h2>
+            </header>
+            <ToDoForm
+               update = {true}
+               description = {oldTodo.description}
+               targetDate = {oldTodo.targetDate}
+               status = {oldTodo.status} 
+               handleSubmit={handleSubmit}
+            />
+         </div>
+      );
+   } else {
+      return (
+         <div className="FormPage">
+            <header className="FormPage-header">
+               <h2 className="FormPage-title">Update a To-do</h2>
+            </header>
+         </div>
+      );
+   }
 }
 
 export default UpdateToDo;

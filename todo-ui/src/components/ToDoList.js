@@ -10,16 +10,15 @@ function ToDoList() {
    const navigate = useNavigate();
    
    useEffect(() => {
-      ToDoService.retrieveAllTodos().then(
-         response => {
-            setTodos(response.data)
-         }
-      )
-   });
+      let isMounted = true;
+      ToDoService.retrieveAllTodos().then(response => {
+         if (isMounted) setTodos(response.data);
+      })
+      return () => { isMounted = false };
+   },[todos]);
 
    let deleteClicked = (id) => {
-      console.log("This thing is broken.")
-      //ToDoService.deleteTodo(id)
+      ToDoService.deleteTodo(id)
    };
    
    return (

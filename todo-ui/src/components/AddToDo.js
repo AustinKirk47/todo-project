@@ -8,18 +8,22 @@ import ToDoService from '../resources/ToDoService';
 function AddToDo() {
    const navigate = useNavigate();
    const handleSubmit = (description, targetDate, status) => {
+      console.log("We got to this point.");
+      const id = -1;
       const todo = {
+         id,
          description,
          targetDate,
          status
       };
       ToDoService.createTodo(todo);
+      console.log("We got to navigate.");
       navigate('/todos');
-   }
+   };
 
    useEffect(() => {
       document.title = "New To-do"
-   });
+   },[]);
    
    return (
       <div className="FormPage">

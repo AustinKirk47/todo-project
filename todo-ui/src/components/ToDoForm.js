@@ -1,20 +1,21 @@
 import '../bootstrap.css';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 
 const ToDoForm = params => {
    const [description, setDescription] = useState(params.update === true ? params.description : 'Add a description');
    const [status, setStatus] = useState(params.update === true ? params.status : 'Not Started');
-   const defaultValue = new Date().toISOString().split('T')[0];
-   const oldValue = params.targetDate.toISOString().split('T')[0];
-   const [targetDate, setTargetDate] = useState(params.update === true ? oldValue : defaultValue);
+   let defaultValue = new Date().toISOString().split('T')[0];
+   if(params.update)
+      defaultValue = params.targetDate.split('T')[0];
+   const [targetDate, setTargetDate] = useState(defaultValue);
    
-   const handleSubmit = (form, e) => {
-      e.preventDefault();
+   const handleSubmit = () => {
+      console.log("THIS HAPPENED.")
       params.handleSubmit(description, targetDate, status);
    }
    
    return (
-      <form name="form" onSubmit={() => handleSubmit}>
+      <form name="form" onSubmit={handleSubmit}>
          <div className="form-group">
             <label htmlFor="description" className="col-sm-2 control-label">Description</label>
             <div className="col-sm-6">
@@ -23,7 +24,7 @@ const ToDoForm = params => {
                   className="form-control"
                   name="description"
                   value={description}
-                  onChange={e => setDescription(e.target.value)}
+                  onChange={event => setDescription(event.target.value)}
                />
             </div>
          </div>
@@ -35,7 +36,7 @@ const ToDoForm = params => {
                   className="form-control"
                   name="targetDate"
                   value={targetDate}
-                  onChange={e => setTargetDate(e.target.value)}
+                  onChange={event => setTargetDate(event.target.value)}
                />
             </div>
          </div>
@@ -47,7 +48,7 @@ const ToDoForm = params => {
                      className="form-control"
                      name="status"
                      value={status}
-                     onChange={e => setStatus(e.target.value)}
+                     onChange={event => setStatus(event.target.value)}
                   >
                      <option value="Not Started">Not Started</option>
                      <option value="Incomplete">Incomplete</option>
@@ -58,7 +59,7 @@ const ToDoForm = params => {
          </div>
          <div className="form-group">
             <div className="col-sm-2">
-               <button type="submit" className="btn btn-success">Submit</button>
+               <button type="button" onClick={handleSubmit} className="btn btn-success">Submit</button>
             </div>
          </div>
       </form>

@@ -39,10 +39,9 @@ public class ToDoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ToDo> createToDo(@RequestBody ToDo toDo) throws
+	public ResponseEntity<ToDo> createToDo(@RequestBody ToDo newToDo) throws
 	URISyntaxException {
-		ToDo createdTodo = toDoRepository.save(toDo);
-		
+		ToDo createdTodo = toDoRepository.save(newToDo);
 		return ResponseEntity.created(new URI("/todos/"
 				+ createdTodo.getId())).body(createdTodo);
 	}
@@ -50,9 +49,6 @@ public class ToDoController {
 	@PutMapping("/{id}")
 	public ResponseEntity<ToDo> updateToDo(@RequestBody ToDo newToDo, @PathVariable Long id) {
 		ToDo currToDo = toDoRepository.findById(id).orElseThrow(() -> new ToDoNotFoundException(id));
-		currToDo.setDescription(newToDo.getDescription());
-		currToDo.setTargetDate(newToDo.getTargetDate());
-		currToDo.setStatus(newToDo.getStatus());
 		currToDo = toDoRepository.save(newToDo);
 		return new ResponseEntity<ToDo>(currToDo, HttpStatus.OK);
 	}
